@@ -3,6 +3,34 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Page configuration with Spotify-like theme
+st.set_page_config(
+    page_title="Spotify Most Streamed Songs Dashboard",
+    page_icon="🎶",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Setting custom theme colors
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background-color: #191414;
+            color: white;
+        }
+        .css-18e3th9 {
+            background-color: #1DB954; /* Spotify green */
+            color: white;
+        }
+        .css-1d391kg {
+            color: white;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Load dataset
 @st.cache_data
 def load_data():
