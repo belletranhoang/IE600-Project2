@@ -92,23 +92,28 @@ platform_data = {
     'Deezer': filtered_data['in_deezer_playlists'].sum()
 }
 
+import matplotlib.pyplot as plt
+
+# Example platform data
+platform_data = {"Spotify": 4955719, "Apple": 64625, "Deezer": 95913}
+
+# Define a custom function for formatting percentages
+def format_autopct(pct):
+    return f'{pct:.1f}%'
+
 fig, ax = plt.subplots()
 ax.pie(
     platform_data.values(),
     labels=None,
-    autopct='%1.1f%%',
+    autopct=format_autopct,  # Use the custom formatting function
     startangle=0,
-    textprops={'fontsize': 6}  # Adjust font size of percentages
+    textprops={'fontsize': 8}  # Adjust font size of percentages
 )
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 
-# Adjust the positions of percentages near the edge
-for autotext, wedge in zip(autotexts, wedges):
-    # Get the angle of the wedge
-    angle = (wedge.theta2 + wedge.theta1) / 2
-    x = 1.2 * np.cos(np.radians(angle))  # Move slightly outward
-    y = 1.2 * np.sin(np.radians(angle))
-    autotext.set_position((x, y))  # Set the new position
+plt.show()
+
+
 # Add a legend
 ax.legend(
     loc="upper right",
