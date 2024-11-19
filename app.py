@@ -120,6 +120,26 @@ ax.legend(
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 st.pyplot(fig)
 
+# Visualization 4: Pie Chart - Songs in Different Playlists
+st.subheader("Platform Popularity")
+
+# Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
+filtered_data['in_spotify_playlists'] = pd.to_numeric(filtered_data['in_spotify_playlists'], errors='coerce')
+filtered_data['in_apple_playlists'] = pd.to_numeric(filtered_data['in_apple_playlists'], errors='coerce')
+filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_playlists'], errors='coerce')
+
+# Calculate platform popularity
+platform_data = {
+    'Spotify': filtered_data['in_spotify_playlists'].sum(),
+    'Apple': filtered_data['in_apple_playlists'].sum(),
+    'Deezer': filtered_data['in_deezer_playlists'].sum()
+}
+
+fig, ax = plt.subplots()
+ax.pie(platform_data.values(), labels=platform_data.keys(), autopct='%1.1f%%', startangle=90)
+ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+st.pyplot(fig)
+
 # Visualization 5: Histogram - BPM Distribution
 st.subheader("Distribution of BPM")
 plt.figure(figsize=(8, 6))
