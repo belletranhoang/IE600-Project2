@@ -95,7 +95,7 @@ platform_data = {
 fig, ax = plt.subplots()
 wedges, texts, autotexts = ax.pie(
     platform_data.values(),
-    labels=none,
+    labels=None,
     autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Show percentages only above 2%
     startangle=90,
     textprops=dict(color="w")  # White text color for visibility
