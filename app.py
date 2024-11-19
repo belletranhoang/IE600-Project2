@@ -82,9 +82,9 @@ st.subheader("Platform Popularity")
 
 # Calculate platform popularity
 platform_data = {
-    'Spotify': pd.tonumeric(data['in_spotify_playlists'].sum()),
-    'Apple': pd.tonumeric(data['in_apple_playlists'].sum()),
-    'Deezer': pd.tonumeric(data['in_deezer_playlists'].sum())
+    'Spotify': pd.to_numeric(data['in_spotify_playlists'].sum()),
+    'Apple': pd.to_numeric(data['in_apple_playlists'].sum()),
+    'Deezer': pd.to_numeric(data['in_deezer_playlists'].sum())
 }
 
 fig, ax = plt.subplots()
