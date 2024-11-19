@@ -93,49 +93,6 @@ platform_data = {
 }
 
 fig, ax = plt.subplots()
-wedges, texts, autotexts = ax.pie(
-    platform_data.values(),
-    labels=None,
-    autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Show percentages only above 2%
-    startangle=90,
-    textprops=dict(color="w")  # White text color for visibility
-)
-
-# Adjust text properties
-for text in texts:
-    text.set_fontsize(10)
-    text.set_color("black")  # Change labels outside the pie chart to black
-
-for autotext in autotexts:
-    autotext.set_fontsize(8)
-
-# Add a legend
-ax.legend(
-    loc="upper right",
-    title="Platforms",
-    labels=[f"{key}: {value}" for key, value in platform_data.items()],
-    fontsize=9
-)
-
-ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
-st.pyplot(fig)
-
-# Visualization 4: Pie Chart - Songs in Different Playlists
-st.subheader("Platform Popularity")
-
-# Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
-filtered_data['in_spotify_playlists'] = pd.to_numeric(filtered_data['in_spotify_playlists'], errors='coerce')
-filtered_data['in_apple_playlists'] = pd.to_numeric(filtered_data['in_apple_playlists'], errors='coerce')
-filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_playlists'], errors='coerce')
-
-# Calculate platform popularity
-platform_data = {
-    'Spotify': filtered_data['in_spotify_playlists'].sum(),
-    'Apple': filtered_data['in_apple_playlists'].sum(),
-    'Deezer': filtered_data['in_deezer_playlists'].sum()
-}
-
-fig, ax = plt.subplots()
 ax.pie(
     platform_data.values(),
     labels=None,
@@ -145,6 +102,13 @@ ax.pie(
 )
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 
+# Adjust the positions of percentages near the edge
+for autotext, wedge in zip(autotexts, wedges):
+    # Get the angle of the wedge
+    angle = (wedge.theta2 + wedge.theta1) / 2
+    x = 1.2 * np.cos(np.radians(angle))  # Move slightly outward
+    y = 1.2 * np.sin(np.radians(angle))
+    autotext.set_position((x, y))  # Set the new position
 # Add a legend
 ax.legend(
     loc="upper right",
