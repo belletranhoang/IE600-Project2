@@ -11,26 +11,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Setting custom theme colors
-st.markdown(
-    """
-    <style>
-        .stApp {
-            background-color: #191414;
-            color: white;
-        }
-        .css-18e3th9 {
-            background-color: #1DB954; /* Spotify green */
-            color: white;
-        }
-        .css-1d391kg {
-            color: white;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
 # Load dataset
 @st.cache_data
 def load_data():
@@ -122,19 +102,17 @@ wedges, texts, autotexts = ax.pie(
     autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Display percentage > 2%
     startangle=90,
     explode=explode,
-    textprops=dict(color="black")
-)
+    textprops=dict(color="black"))
 
 # Add leader lines for small slices
 for text, wedge in zip(texts, wedges):
-    theta = (wedge.theta2 + wedge.theta1) / 2  # Angle in degrees
-    x = 1.1 * np.cos(np.radians(theta))  # Use np.cos
-    y = 1.1 * np.sin(np.radians(theta))  # Use np.sin
+    x, y = wedge.get_center()
     if wedge.theta2 - wedge.theta1 < 15:  # Adjust based on slice size
+        x, y = wedge.get_xy()
         ax.annotate(
             text.get_text(),
             xy=(x, y),
-            xytext=(1.2 * x, 1.2 * y),
+            xytext=(1.1 * x, 1.2 * y),
             arrowprops=dict(arrowstyle="->", lw=0.5),
             fontsize=10,
             ha="center"
@@ -149,9 +127,7 @@ ax.legend(
     loc="best",
     title="Platforms",
     labels=[f"{key}: {value}" for key, value in platform_data.items()],
-    fontsize=9
-)
-
+    fontsize=9)
 st.pyplot(fig)
 
 # Visualization 5: Histogram - BPM Distribution
@@ -169,25 +145,3 @@ st.write(
     "This dashboard reveals interesting insights about song characteristics, "
     "release trends, and artist popularity. Use the filters in the sidebar to explore more!"
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
