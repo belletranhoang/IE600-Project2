@@ -141,7 +141,7 @@ ax.pie(
     labels=None,
     autopct='%1.1f%%',
     startangle=0,
-    textprops={'fontsize': 8}  # Adjust font size of percentages
+    textprops={'fontsize': 6}  # Adjust font size of percentages
 )
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 
