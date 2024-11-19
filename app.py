@@ -128,8 +128,8 @@ wedges, texts, autotexts = ax.pie(
 # Add leader lines for small slices
 for text, wedge in zip(texts, wedges):
     theta = (wedge.theta2 + wedge.theta1) / 2  # Angle in degrees
-    x = 1.1 * plt.cos(np.radians(theta))  # Radius assumed to be 1
-    y = 1.1 * plt.sin(np.radians(theta))
+    x = 1.1 * np.cos(np.radians(theta))  # Use np.cos
+    y = 1.1 * np.sin(np.radians(theta))  # Use np.sin
     if wedge.theta2 - wedge.theta1 < 15:  # Adjust based on slice size
         ax.annotate(
             text.get_text(),
