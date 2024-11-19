@@ -97,7 +97,7 @@ plt.xlabel("Danceability (%)")
 plt.ylabel("Energy (%)")
 st.pyplot(plt)
 
-# Visualization 4: Pie Chart - Songs in Different Playlists
+# Visualization 4: Improved Pie Chart - Songs in Different Playlists
 st.subheader("Platform Popularity")
 
 # Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
@@ -109,35 +109,43 @@ filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_pl
 platform_data = {
     'Spotify': filtered_data['in_spotify_playlists'].sum(),
     'Apple': filtered_data['in_apple_playlists'].sum(),
-    'Deezer': filtered_data['in_deezer_playlists'].sum()
-}
+    'Deezer': filtered_data['in_deezer_playlists'].sum()}
+
+# Explode small slices for visibility
+explode = [0, 0.1, 0.1]  # Explode Apple and Deezer for emphasis
 
 fig, ax = plt.subplots()
 wedges, texts, autotexts = ax.pie(
     platform_data.values(),
     labels=platform_data.keys(),
-    autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Show percentages only above 2%
+    autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Display percentage > 2%
     startangle=90,
-    textprops=dict(color="w")  # White text color for visibility
-)
+    explode=explode,
+    textprops=dict(color="black"))
 
-# Adjust text properties
-for text in texts:
-    text.set_fontsize(10)
-    text.set_color("black")  # Change labels outside the pie chart to black
+# Add leader lines for small slices
+for text, wedge in zip(texts, wedges):
+    x, y = wedge.get_center()
+    if wedge.theta2 - wedge.theta1 < 15:  # Adjust based on slice size
+        x, y = wedge.get_xy()
+        ax.annotate(
+            text.get_text(),
+            xy=(x, y),
+            xytext=(1.1 * x, 1.2 * y),
+            arrowprops=dict(arrowstyle="->", lw=0.5),
+            fontsize=10,
+            ha="center")
+        text.set_visible(False)  # Hide default text
 
-for autotext in autotexts:
-    autotext.set_fontsize(8)
+# Equal aspect ratio for a circular pie chart
+ax.axis('equal')
 
-# Add a legend
+# Add legend for clarity
 ax.legend(
-    loc="upper right",
+    loc="best",
     title="Platforms",
     labels=[f"{key}: {value}" for key, value in platform_data.items()],
-    fontsize=9
-)
-
-ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+    fontsize=9)
 st.pyplot(fig)
 
 # Visualization 5: Histogram - BPM Distribution
