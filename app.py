@@ -136,7 +136,13 @@ platform_data = {
 }
 
 fig, ax = plt.subplots()
-ax.pie(platform_data.values(), labels=None, autopct='%1.1f%%', startangle=0)
+ax.pie(
+    platform_data.values(),
+    labels=None,
+    autopct='%1.1f%%',
+    startangle=0,
+    textprops={'fontsize': 8}  # Adjust font size of percentages
+)
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 
 # Add a legend
