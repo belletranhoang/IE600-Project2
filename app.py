@@ -113,7 +113,30 @@ platform_data = {
 }
 
 fig, ax = plt.subplots()
-ax.pie(platform_data.values(), labels=platform_data.keys(), autopct='%1.1f%%', startangle=90)
+wedges, texts, autotexts = ax.pie(
+    platform_data.values(),
+    labels=platform_data.keys(),
+    autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Show percentages only above 2%
+    startangle=90,
+    textprops=dict(color="w")  # White text color for visibility
+)
+
+# Adjust text properties
+for text in texts:
+    text.set_fontsize(10)
+    text.set_color("black")  # Change labels outside the pie chart to black
+
+for autotext in autotexts:
+    autotext.set_fontsize(8)
+
+# Add a legend
+ax.legend(
+    loc="upper right",
+    title="Platforms",
+    labels=[f"{key}: {value}" for key, value in platform_data.items()],
+    fontsize=9
+)
+
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 st.pyplot(fig)
 
