@@ -16,7 +16,7 @@ spotify_palette = {
     'primary': '#1DB954',  
     'secondary': '#191414',  
     'accent': '#535353',  
-    'highlight': '#ffffff' 
+    'highlight': '#ffffff' }
     
 # Load dataset
 @st.cache_data
