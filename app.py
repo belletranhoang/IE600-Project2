@@ -80,12 +80,22 @@ st.pyplot(plt)
 # Visualization 4: Pie Chart - Songs in Different Playlists
 st.subheader("Platform Popularity")
 
+# Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
+filtered_data['in_spotify_playlists'] = pd.to_numeric(filtered_data['in_spotify_playlists'], errors='coerce')
+filtered_data['in_apple_playlists'] = pd.to_numeric(filtered_data['in_apple_playlists'], errors='coerce')
+filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_playlists'], errors='coerce')
+
 # Calculate platform popularity
 platform_data = {
-    'Spotify': pd.to_numeric(data['in_spotify_playlists'].sum()),
-    'Apple': pd.to_numeric(data['in_apple_playlists'].sum()),
-    'Deezer': pd.to_numeric(data['in_deezer_playlists'].sum())
+    'Spotify': filtered_data['in_spotify_playlists'].sum(),
+    'Apple': filtered_data['in_apple_playlists'].sum(),
+    'Deezer': filtered_data['in_deezer_playlists'].sum()
 }
+
+import matplotlib.pyplot as plt
+
+# Example platform data
+platform_data = {"Spotify": 4955719, "Apple": 64625, "Deezer": 95913}
 
 fig, ax = plt.subplots()
 ax.pie(
@@ -93,9 +103,9 @@ ax.pie(
     labels=None,
     autopct='%1.1f%%',
     startangle=0,
-    textprops={'fontsize': 6}
+    textprops={'fontsize': 6}  # Adjust font size of percentages
 )
-ax.axis('equal') 
+ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
 plt.show()
 
 # Add a legend
