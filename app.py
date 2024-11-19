@@ -80,10 +80,7 @@ st.pyplot(plt)
 # Visualization 4: Pie Chart - Songs in Different Playlists
 st.subheader("Platform Popularity")
 
-# Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
-filtered_data['in_spotify_playlists'] = pd.to_numeric(filtered_data['in_spotify_playlists'], errors='coerce')
-filtered_data['in_apple_playlists'] = pd.to_numeric(filtered_data['in_apple_playlists'], errors='coerce')
-filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_playlists'], errors='coerce')
+
 
 # Calculate platform popularity
 platform_data = {
