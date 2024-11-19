@@ -80,13 +80,11 @@ st.pyplot(plt)
 # Visualization 4: Pie Chart - Songs in Different Playlists
 st.subheader("Platform Popularity")
 
-
-
 # Calculate platform popularity
 platform_data = {
-    'Spotify': filtered_data['in_spotify_playlists'].sum(),
-    'Apple': filtered_data['in_apple_playlists'].sum(),
-    'Deezer': filtered_data['in_deezer_playlists'].sum()
+    'Spotify': data['in_spotify_playlists'].sum(),
+    'Apple': data['in_apple_playlists'].sum(),
+    'Deezer': data['in_deezer_playlists'].sum()
 }
 
 fig, ax = plt.subplots()
