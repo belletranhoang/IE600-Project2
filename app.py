@@ -89,20 +89,15 @@ platform_data = {
     'Deezer': filtered_data['in_deezer_playlists'].sum()
 }
 
-import matplotlib.pyplot as plt
-
-# Example platform data
-platform_data = {"Spotify": 4955719, "Apple": 64625, "Deezer": 95913}
-
 fig, ax = plt.subplots()
 ax.pie(
     platform_data.values(),
     labels=None,
     autopct='%1.1f%%',
     startangle=0,
-    textprops={'fontsize': 6}  # Adjust font size of percentages
+    textprops={'fontsize': 6}
 )
-ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+ax.axis('equal') 
 plt.show()
 
 # Add a legend
