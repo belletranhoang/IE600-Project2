@@ -11,13 +11,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Define Spotify-themed colors
-spotify_palette = {
-    'primary': '#1DB954',  
-    'secondary': '#191414',  
-    'accent': '#535353',  
-    'highlight': '#ffffff' }
-    
 # Load dataset
 @st.cache_data
 def load_data():
@@ -62,52 +55,46 @@ st.dataframe(filtered_data.head(10))
 # Visualization 1: Bar Chart - Top 10 Artists by Streams
 st.subheader("Top 10 Artists by Total Streams")
 top_artists = data.groupby('artist(s)_name')['streams'].sum().sort_values(ascending=False).head(10)
-# Spotify-styled bar chart
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.barplot(
-    x=top_artists.values,
-    y=top_artists.index,
-    palette=[spotify_palette['primary']] * len(top_artists),
-    ax=ax
-)
-ax.set_title("Top 10 Artists by Total Streams", color=spotify_palette['highlight'])
-ax.set_xlabel("Total Streams", color=spotify_palette['highlight'])
-ax.set_ylabel("Artist", color=spotify_palette['highlight'])
-ax.tick_params(colors=spotify_palette['highlight'])
-st.pyplot(fig)
+st.bar_chart(top_artists)
 
 # Visualization 2: Line Chart - Song Released Over Time
 st.subheader("Song Release Trends Over Time")
 release_trends = filtered_data.groupby(['released_year', 'released_month'])['track_name'].count().reset_index(name='song_count')
 release_trends['date'] = pd.to_datetime(release_trends['released_year'].astype(str) + '-' + release_trends['released_month'].astype(str))
-fig, ax = plt.subplots(figsize=(10, 5))
-sns.lineplot(data=release_trends, x='date', y='song_count', color=spotify_palette['primary'], ax=ax)
-ax.set_title("Number of Songs Released Over Time", color=spotify_palette['highlight'])
-ax.set_xlabel("Release Date", color=spotify_palette['highlight'])
-ax.set_ylabel("Number of Songs", color=spotify_palette['highlight'])
-ax.tick_params(colors=spotify_palette['highlight'])
-st.pyplot(fig)
+plt.figure(figsize=(10, 5))
+sns.lineplot(data=release_trends, x='date', y='song_count')
+plt.title("Number of Songs Released Over Time")
+plt.xlabel("Release Date")
+plt.ylabel("Number of Songs")
+st.pyplot(plt)
 
 # Visualization 3: Scatter Plot - Danceability vs Energy
 st.subheader("Danceability vs. Energy")
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.scatterplot(
-    data=filtered_data,
-    x='danceability_%',
-    y='energy_%',
-    hue='artist(s)_name',
-    palette='cool',
-    legend=False,
-    ax=ax
-)
-ax.set_title("Danceability vs Energy", color=spotify_palette['highlight'])
-ax.set_xlabel("Danceability (%)", color=spotify_palette['highlight'])
-ax.set_ylabel("Energy (%)", color=spotify_palette['highlight'])
-ax.tick_params(colors=spotify_palette['highlight'])
-st.pyplot(fig)
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=filtered_data, x='danceability_%', y='energy_%', hue='artist(s)_name', legend=False)
+plt.title("Danceability vs Energy")
+plt.xlabel("Danceability (%)")
+plt.ylabel("Energy (%)")
+st.pyplot(plt)
 
 # Visualization 4: Pie Chart - Songs in Different Playlists
 st.subheader("Platform Popularity")
+
+# Convert columns to numeric, setting errors='coerce' to handle any non-numeric values
+filtered_data['in_spotify_playlists'] = pd.to_numeric(filtered_data['in_spotify_playlists'], errors='coerce')
+filtered_data['in_apple_playlists'] = pd.to_numeric(filtered_data['in_apple_playlists'], errors='coerce')
+filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_playlists'], errors='coerce')
+
+# Calculate platform popularity
+platform_data = {
+    'Spotify': filtered_data['in_spotify_playlists'].sum(),
+    'Apple': filtered_data['in_apple_playlists'].sum(),
+    'Deezer': filtered_data['in_deezer_playlists'].sum()
+}
+
+import matplotlib.pyplot as plt
+
+# Example platform data
 platform_data = {"Spotify": 4955719, "Apple": 64625, "Deezer": 95913}
 
 fig, ax = plt.subplots()
@@ -116,26 +103,27 @@ ax.pie(
     labels=None,
     autopct='%1.1f%%',
     startangle=0,
-    colors=[spotify_palette['primary'], spotify_palette['accent'], spotify_palette['secondary']]
+    textprops={'fontsize': 6}  # Adjust font size of percentages
 )
-ax.axis('equal')
+ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+plt.show()
+
+# Add a legend
 ax.legend(
     loc="upper right",
     title="Platforms",
     labels=[f"{key}: {value}" for key, value in platform_data.items()],
-    fontsize=8
-)
+    fontsize=9)
 st.pyplot(fig)
 
 # Visualization 5: Histogram - BPM Distribution
 st.subheader("Distribution of BPM")
-fig, ax = plt.subplots(figsize=(8, 6))
-sns.histplot(filtered_data['bpm'], bins=20, kde=True, color=spotify_palette['primary'], ax=ax)
-ax.set_title("Distribution of BPM (Beats Per Minute)", color=spotify_palette['highlight'])
-ax.set_xlabel("BPM", color=spotify_palette['highlight'])
-ax.set_ylabel("Frequency", color=spotify_palette['highlight'])
-ax.tick_params(colors=spotify_palette['highlight'])
-st.pyplot(fig)
+plt.figure(figsize=(8, 6))
+sns.histplot(filtered_data['bpm'], bins=20, kde=True, color='blue')
+plt.title("Distribution of BPM (Beats Per Minute)")
+plt.xlabel("BPM")
+plt.ylabel("Frequency")
+st.pyplot(plt)
 
 # Conclusion
 st.subheader("Insights & Summary")
