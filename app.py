@@ -94,8 +94,9 @@ ax.pie(
     platform_data.values(),
     labels=None,
     autopct='%1.1f%%',
-    startangle=90,
-    colors=['#1DB954', '#FF9900', '#191414']
+    startangle=0,
+    colors=['#1DB954', '#FF9900', '#191414'],
+    textprops={'fontsize': 6}
 )
 ax.axis('equal')
 # Add a legend
