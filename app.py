@@ -97,22 +97,16 @@ import matplotlib.pyplot as plt
 # Example platform data
 platform_data = {"Spotify": 4955719, "Apple": 64625, "Deezer": 95913}
 
-# Define a custom function for formatting percentages
-def format_autopct(pct):
-    return f'{pct:.1f}%'
-
 fig, ax = plt.subplots()
 ax.pie(
     platform_data.values(),
     labels=None,
-    autopct=format_autopct,  # Use the custom formatting function
+    autopct='%1.1f%%',
     startangle=0,
-    textprops={'fontsize': 8}  # Adjust font size of percentages
+    textprops={'fontsize': 6}  # Adjust font size of percentages
 )
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
-
 plt.show()
-
 
 # Add a legend
 ax.legend(
