@@ -109,7 +109,8 @@ filtered_data['in_deezer_playlists'] = pd.to_numeric(filtered_data['in_deezer_pl
 platform_data = {
     'Spotify': filtered_data['in_spotify_playlists'].sum(),
     'Apple': filtered_data['in_apple_playlists'].sum(),
-    'Deezer': filtered_data['in_deezer_playlists'].sum()}
+    'Deezer': filtered_data['in_deezer_playlists'].sum()
+}
 
 # Explode small slices for visibility
 explode = [0, 0.1, 0.1]  # Explode Apple and Deezer for emphasis
@@ -121,7 +122,8 @@ wedges, texts, autotexts = ax.pie(
     autopct=lambda pct: f"{pct:.1f}%" if pct > 2 else "",  # Display percentage > 2%
     startangle=90,
     explode=explode,
-    textprops=dict(color="black"))
+    textprops=dict(color="black")
+)
 
 # Add leader lines for small slices
 for text, wedge in zip(texts, wedges):
@@ -134,7 +136,8 @@ for text, wedge in zip(texts, wedges):
             xytext=(1.1 * x, 1.2 * y),
             arrowprops=dict(arrowstyle="->", lw=0.5),
             fontsize=10,
-            ha="center")
+            ha="center"
+        )
         text.set_visible(False)  # Hide default text
 
 # Equal aspect ratio for a circular pie chart
@@ -145,7 +148,9 @@ ax.legend(
     loc="best",
     title="Platforms",
     labels=[f"{key}: {value}" for key, value in platform_data.items()],
-    fontsize=9)
+    fontsize=9
+)
+
 st.pyplot(fig)
 
 # Visualization 5: Histogram - BPM Distribution
