@@ -136,8 +136,15 @@ platform_data = {
 }
 
 fig, ax = plt.subplots()
-ax.pie(platform_data.values(), labels=platform_data.keys(), autopct='%1.1f%%', startangle=90)
+ax.pie(platform_data.values(), labels=None, autopct='%1.1f%%', startangle=0)
 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular
+
+# Add a legend
+ax.legend(
+    loc="upper right",
+    title="Platforms",
+    labels=[f"{key}: {value}" for key, value in platform_data.items()],
+    fontsize=9)
 st.pyplot(fig)
 
 # Visualization 5: Histogram - BPM Distribution
