@@ -81,8 +81,7 @@ st.pyplot(plt)
 st.subheader("Platform Popularity")
 for col in ['in_spotify_playlists', 'in_apple_playlists', 'in_deezer_playlists']:
     if col not in data.columns:
-        data[col] = 0  # Add missing columns with zeros
-
+        data[col] = 0 
 platform_data = {
     'Spotify': pd.to_numeric(data['in_spotify_playlists'], errors='coerce').sum(),
     'Apple': pd.to_numeric(data['in_apple_playlists'], errors='coerce').sum(),
